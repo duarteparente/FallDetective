@@ -1,0 +1,86 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="stateDiagram" name="State Diagram">
+    <mxGraphModel dx="1464" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Start -->
+        <mxCell id="start" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="30" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Monitoring -->
+        <mxCell id="monitoring" value="Monitoring&#10;(Proximity sensor active)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="150" y="60" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Start -> Monitoring -->
+        <mxCell id="arrow1" edge="1" parent="1" target="monitoring" source="start" style="endArrow=classic;html=1;rounded=0;"/>
+
+        <!-- CheckingMagnitude1 -->
+        <mxCell id="check1" value="CheckingMagnitude1&#10;(magnitude check 1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="400" y="60" width="200" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Monitoring -> CheckingMagnitude1 -->
+        <mxCell id="arrow2" edge="1" parent="1" source="monitoring" target="check1" value="proximity != 0" style="endArrow=classic;html=1;"/>
+
+        <!-- Loop inside Monitoring -->
+        <mxCell id="arrow3" edge="1" parent="1" source="monitoring" target="monitoring" value="proximity == 0" style="endArrow=classic;html=1;curved=1;"/>
+
+        <!-- Waiting -->
+        <mxCell id="waiting" value="Waiting&#10;(0.75s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="650" y="60" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- check1 -> waiting -->
+        <mxCell id="arrow4" edge="1" parent="1" source="check1" target="waiting" value="magnitude > 20" style="endArrow=classic;html=1;"/>
+
+        <!-- check1 -> monitoring -->
+        <mxCell id="arrow5" edge="1" parent="1" source="check1" target="monitoring" value="magnitude ≤ 20" style="endArrow=classic;html=1;"/>
+
+        <!-- CheckingMagnitude2 -->
+        <mxCell id="check2" value="CheckingMagnitude2&#10;(magnitude check 2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="850" y="60" width="200" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- waiting -> check2 -->
+        <mxCell id="arrow6" edge="1" parent="1" source="waiting" target="check2" style="endArrow=classic;html=1;"/>
+
+        <!-- check2 -> monitoring -->
+        <mxCell id="arrow7" edge="1" parent="1" source="check2" target="monitoring" value="magnitude ≤ 20" style="endArrow=classic;html=1;"/>
+
+        <!-- ExtractingWindow -->
+        <mxCell id="extract" value="ExtractingWindow&#10;2s window centered on peak" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="60" width="220" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- check2 -> extract -->
+        <mxCell id="arrow8" edge="1" parent="1" source="check2" target="extract" value="magnitude > 20" style="endArrow=classic;html=1;"/>
+
+        <!-- EvaluatingAverage -->
+        <mxCell id="average" value="EvaluatingAverage&#10;(average magnitude)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="60" width="200" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- extract -> average -->
+        <mxCell id="arrow9" edge="1" parent="1" source="extract" target="average" style="endArrow=classic;html=1;"/>
+
+        <!-- Alarm -->
+        <mxCell id="alarm" value="ALARM&#10;Fall Detected" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="60" width="150" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- average -> alarm -->
+        <mxCell id="arrow10" edge="1" parent="1" source="average" target="alarm" value="average > 9.5" style="endArrow=classic;html=1;"/>
+
+        <!-- alarm -> monitoring -->
+        <mxCell id="arrow11" edge="1" parent="1" source="alarm" target="monitoring" style="endArrow=classic;html=1;"/>
+
+        <!-- average -> monitoring -->
+        <mxCell id="arrow12" edge="1" parent="1" source="average" target="monitoring" value="average ≤ 9.5" style="endArrow=classic;html=1;"/>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
